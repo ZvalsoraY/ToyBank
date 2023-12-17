@@ -27,6 +27,13 @@ public class Main {
         HandlerRunnable handlerRunnable1 = new HandlerRunnable(bank, front);
         HandlerRunnable handlerRunnable2 = new HandlerRunnable(bank, front);
 
+        Thread handler1 = new Thread(handlerRunnable1);
+        Thread handler2 = new Thread(handlerRunnable1);
+
+        handler1.start();
+        handler2.start();
+
+
 
         System.out.println("Hello world!");
     }
