@@ -4,7 +4,7 @@ import com.mypac.essence.*;
 
 public class Main {
     public static void main(String[] args) {
-        System.out.println("Hello Threads!");
+        System.out.println("Hello Main Threads!");
         Bank bank = new Bank(100);
 
         Front front = new Front();
@@ -35,6 +35,6 @@ public class Main {
 
 
 
-        System.out.println("Hello world!");
+        System.out.println("Goodbye Main Threads!");
     }
 }

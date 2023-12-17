@@ -13,6 +13,8 @@ public class ClientRunnable implements Runnable {
     }
     @Override
     public void run() {
+        System.out.println("Client  " + request.name );
         front.addRequest(request);
+        System.out.println("Client run after request " + request.name + " отправлена в банк");
     }
 }

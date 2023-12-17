@@ -13,17 +13,19 @@ public class HandlerRunnable implements Runnable{
 
     @Override
     public void run() {
-        while (true){
-            OperationType operationType = front.getRequest().operationType;
+        //while (true){
+            Request currentRequest = front.getRequest();
+            System.out.println("Получена заявка на обработку по клиенту " + currentRequest.name);
+            OperationType operationType = currentRequest.operationType;
             switch (operationType){
                 case INCREASING -> {
-                     bank.increase(front.getRequest().sum);
+                     bank.increase(currentRequest.sum);
                 }
                 case DECREASING -> {
-                    bank.decrease(front.getRequest().sum);
+                    bank.decrease(currentRequest.sum);
                 }
 
             }
-        }
+        //}
     }
 }
