@@ -3,10 +3,12 @@ package com.mypac.essence;
 import static com.mypac.essence.OperationType.INCREASING;
 
 public class HandlerRunnable implements Runnable{
+    private String name;
     private Bank bank;
     private Front front;
 
-    public HandlerRunnable(Bank bank, Front front) {
+    public HandlerRunnable(String name, Bank bank, Front front) {
+        this.name = name;
         this.bank = bank;
         this.front = front;
     }
@@ -15,7 +17,8 @@ public class HandlerRunnable implements Runnable{
     public void run() {
         while (true){
             Request currentRequest = front.getRequest();
-            System.out.println("Получена заявка на обработку по клиенту " + currentRequest.name);
+            System.out.println("Получена заявка на обработку по клиенту " + currentRequest.name +
+                    " обработчик " + name);
             OperationType operationType = currentRequest.operationType;
             switch (operationType){
                 case INCREASING -> {
@@ -24,7 +27,6 @@ public class HandlerRunnable implements Runnable{
                 case DECREASING -> {
                     bank.decrease(currentRequest.sum);
                 }
-
             }
         }
     }

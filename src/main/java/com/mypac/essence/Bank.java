@@ -11,11 +11,13 @@ public class Bank {
         return balance;
     }
 
-    public void increase(long value) {
+    public synchronized void increase(long value) {
         balance += value;
+        System.out.println("Заявка increase выполнена. Bank " + balance);
     }
 
-    public void decrease(long value) {
+    public synchronized void decrease(long value) {
         balance -= value;
+        System.out.println("Заявка decrease выполнена. Bank " + balance);
     }
 }

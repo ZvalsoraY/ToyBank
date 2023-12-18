@@ -7,15 +7,17 @@ public class Front {
 
     public void addRequest(Request request){
         synchronized (this) {
-            requests.addLast(request);
+            //requests.addLast(request);
             while (requests.size() >= 2) {
                 try {
                     this.wait();
                 } catch (InterruptedException e) {
-                    Thread.currentThread().interrupt();
+                    //Thread.currentThread().interrupt();
+                    throw new RuntimeException(e);
                 }
             }
             requests.add(request);
+            //requests.addLast(request);
             this.notifyAll();
         }
     }
@@ -26,10 +28,11 @@ public class Front {
                 try {
                     this.wait();
                 } catch (InterruptedException e) {
-                    Thread.currentThread().interrupt();
+                    //Thread.currentThread().interrupt();
+                    throw new RuntimeException(e);
                 }
             }
-            Request firstRequest = requests.getFirst();
+            Request firstRequest = requests.poll();
             this.notifyAll();
             return firstRequest;
         }
