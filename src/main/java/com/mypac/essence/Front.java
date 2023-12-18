@@ -8,7 +8,7 @@ public class Front {
     public void addRequest(Request request){
         synchronized (this) {
             requests.addLast(request);
-            while (requests.size() > 2) {
+            while (requests.size() >= 2) {
                 try {
                     this.wait();
                 } catch (InterruptedException e) {
