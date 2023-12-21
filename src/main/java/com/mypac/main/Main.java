@@ -9,10 +9,10 @@ public class Main {
     public static void main(String[] args) {
         System.out.println("Hello Main Threads!");
         Bank bank = new Bank();
-
         Front front = new Front();
 
-        ExecutorService fixedThreadPool = Executors.newFixedThreadPool(7);
+        ExecutorService clientThreadPool = Executors.newFixedThreadPool(1);
+        ExecutorService handlerThreadPool = Executors.newFixedThreadPool(1);
 
         ClientRunnable increaseBankRunnable1 = new ClientRunnable("increaseBankRunnable1",new Request("increaseBankRunnable1", 100, OperationType.INCREASING), front);
         ClientRunnable increaseBankRunnable2 = new ClientRunnable("increaseBankRunnable2",new Request("increaseBankRunnable2", 200, OperationType.INCREASING), front);
@@ -20,38 +20,17 @@ public class Main {
         ClientRunnable decreaseBankRunnable4 = new ClientRunnable("decreaseBankRunnable4",new Request("decreaseBankRunnable4", 200, OperationType.DECREASING), front);
         ClientRunnable decreaseBankRunnable5 = new ClientRunnable("decreaseBankRunnable5",new Request("decreaseBankRunnable5", 200, OperationType.DECREASING), front);
 
-        Thread increaseThread1 = new Thread(increaseBankRunnable1);
-        Thread increaseThread2 = new Thread(increaseBankRunnable2);
-        Thread decreaseThread3 = new Thread(decreaseBankRunnable3);
-        Thread decreaseThread4 = new Thread(decreaseBankRunnable4);
-        Thread decreaseThread5 = new Thread(decreaseBankRunnable5);
-
-
-
         HandlerRunnable handlerRunnable1 = new HandlerRunnable("handlerRunnable1", bank, front);
         HandlerRunnable handlerRunnable2 = new HandlerRunnable("handlerRunnable2", bank, front);
 
-        Thread handler1 = new Thread(handlerRunnable1);
-        Thread handler2 = new Thread(handlerRunnable2);
+        clientThreadPool.submit(increaseBankRunnable1);
+        clientThreadPool.submit(increaseBankRunnable2);
+        clientThreadPool.submit(decreaseBankRunnable3);
+        clientThreadPool.submit(decreaseBankRunnable4);
+        clientThreadPool.submit(decreaseBankRunnable5);
 
-        /*increaseThread1.start();
-        increaseThread2.start();
-        decreaseThread3.start();
-        decreaseThread4.start();
-        decreaseThread5.start();
-
-        handler1.start();
-        handler2.start();*/
-        fixedThreadPool.submit(increaseThread1);
-        fixedThreadPool.submit(increaseThread2);
-        fixedThreadPool.submit(decreaseThread3);
-        fixedThreadPool.submit(decreaseThread4);
-        fixedThreadPool.submit(decreaseThread5);
-
-        fixedThreadPool.submit(handler1);
-        fixedThreadPool.submit(handler2);
-
-
+        handlerThreadPool.submit(handlerRunnable1);
+        handlerThreadPool.submit(handlerRunnable2);
 
         System.out.println("Goodbye Main Threads!");
     }
