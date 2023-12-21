@@ -5,7 +5,7 @@ import com.mypac.essence.*;
 public class Main {
     public static void main(String[] args) {
         System.out.println("Hello Main Threads!");
-        Bank bank = new Bank(100);
+        Bank bank = new Bank();
 
         Front front = new Front();
 
