@@ -21,11 +21,13 @@ public class HandlerRunnable implements Runnable{
                     " обработчик " + name);
             OperationType operationType = currentRequest.operationType;
             switch (operationType){
-                case INCREASING -> {
+                case INCREASING: {
                      bank.increase(currentRequest.sum);
+                     break;
                 }
-                case DECREASING -> {
+                case DECREASING: {
                     bank.decrease(currentRequest.sum);
+                    break;
                 }
             }
         }

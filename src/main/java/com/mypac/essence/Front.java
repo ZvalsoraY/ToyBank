@@ -1,40 +1,25 @@
 package com.mypac.essence;
 
-import java.util.ArrayDeque;
+import java.util.concurrent.ArrayBlockingQueue;
+
 
 public class Front {
-    private ArrayDeque<Request> requests = new ArrayDeque<>();
+    private ArrayBlockingQueue<Request> requests = new ArrayBlockingQueue<>(2);
 
-    public void addRequest(Request request){
-        synchronized (this) {
-            //requests.addLast(request);
-            while (requests.size() >= 2) {
-                try {
-                    this.wait();
-                } catch (InterruptedException e) {
-                    //Thread.currentThread().interrupt();
-                    throw new RuntimeException(e);
-                }
-            }
-            requests.add(request);
-            //requests.addLast(request);
-            this.notifyAll();
+    public void addRequest(Request request) {
+        try{
+            requests.put(request);
+        } catch (InterruptedException e) {
+            throw new RuntimeException(e);
         }
     }
 
-    public Request getRequest() {
-        synchronized (this) {
-            while (requests.size() < 1) {
-                try {
-                    this.wait();
-                } catch (InterruptedException e) {
-                    //Thread.currentThread().interrupt();
-                    throw new RuntimeException(e);
-                }
-            }
-            Request firstRequest = requests.poll();
-            this.notifyAll();
+    public Request getRequest(){
+        try {
+            Request firstRequest = requests.take();
             return firstRequest;
+        } catch (InterruptedException e) {
+            throw new RuntimeException(e);
         }
     }
 
