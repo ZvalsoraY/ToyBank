@@ -2,12 +2,17 @@ package com.mypac.main;
 
 import com.mypac.essence.*;
 
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
+
 public class Main {
     public static void main(String[] args) {
         System.out.println("Hello Main Threads!");
         Bank bank = new Bank();
 
         Front front = new Front();
+
+        ExecutorService fixedThreadPool = Executors.newFixedThreadPool(7);
 
         ClientRunnable increaseBankRunnable1 = new ClientRunnable("increaseBankRunnable1",new Request("increaseBankRunnable1", 100, OperationType.INCREASING), front);
         ClientRunnable increaseBankRunnable2 = new ClientRunnable("increaseBankRunnable2",new Request("increaseBankRunnable2", 200, OperationType.INCREASING), front);
@@ -29,14 +34,22 @@ public class Main {
         Thread handler1 = new Thread(handlerRunnable1);
         Thread handler2 = new Thread(handlerRunnable2);
 
-        increaseThread1.start();
+        /*increaseThread1.start();
         increaseThread2.start();
         decreaseThread3.start();
         decreaseThread4.start();
         decreaseThread5.start();
 
         handler1.start();
-        handler2.start();
+        handler2.start();*/
+        fixedThreadPool.submit(increaseThread1);
+        fixedThreadPool.submit(increaseThread2);
+        fixedThreadPool.submit(decreaseThread3);
+        fixedThreadPool.submit(decreaseThread4);
+        fixedThreadPool.submit(decreaseThread5);
+
+        fixedThreadPool.submit(handler1);
+        fixedThreadPool.submit(handler2);
 
 
 
