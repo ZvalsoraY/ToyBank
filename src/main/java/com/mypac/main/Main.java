@@ -11,8 +11,8 @@ public class Main {
         Bank bank = new Bank();
         Front front = new Front();
 
-        ExecutorService clientThreadPool = Executors.newFixedThreadPool(1);
-        ExecutorService handlerThreadPool = Executors.newFixedThreadPool(1);
+        ExecutorService clientThreadPool = Executors.newFixedThreadPool(2);
+        ExecutorService handlerThreadPool = Executors.newFixedThreadPool(2);
 
         ClientRunnable increaseBankRunnable1 = new ClientRunnable("increaseBankRunnable1",new Request("increaseBankRunnable1", 100, OperationType.INCREASING), front);
         ClientRunnable increaseBankRunnable2 = new ClientRunnable("increaseBankRunnable2",new Request("increaseBankRunnable2", 200, OperationType.INCREASING), front);
