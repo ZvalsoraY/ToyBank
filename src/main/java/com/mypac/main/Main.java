@@ -2,11 +2,13 @@ package com.mypac.main;
 
 import com.mypac.essence.*;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
 public class Main {
-    public static void main(String[] args) {
+    public static void main(String[] args) throws InterruptedException {
         System.out.println("Hello Main Threads!");
         Bank bank = new Bank();
         Front front = new Front();
@@ -23,13 +25,12 @@ public class Main {
         HandlerRunnable handlerRunnable1 = new HandlerRunnable("handlerRunnable1", bank, front);
         HandlerRunnable handlerRunnable2 = new HandlerRunnable("handlerRunnable2", bank, front);
 
-        BankWarm bankWarm1 = new BankWarm(5000, 100, bank);
-        BankWarm bankWarm2 = new BankWarm(7000, 200, bank);
-        BankWarm bankWarm3 = new BankWarm(10000, 300, bank);
-        clientThreadPool.submit(bankWarm1);
-        clientThreadPool.submit(bankWarm2);
-        clientThreadPool.submit(bankWarm3);
+        List<BankWarm> bankWarms = new ArrayList<>(3);
+        bankWarms.add(new BankWarm(5000, 100, bank));
+        bankWarms.add(new BankWarm(7000, 200, bank));
+        bankWarms.add(new BankWarm(10000, 300, bank));
 
+        clientThreadPool.invokeAll(bankWarms);
 
         clientThreadPool.submit(increaseBankRunnable1);
         clientThreadPool.submit(increaseBankRunnable2);
